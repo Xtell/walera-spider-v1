@@ -1,12 +1,20 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import {WelcomeScreen} from './src/screens/WelcomeScreen'
+import { RegScreen } from './src/screens/RegScreen'
+import * as SecureStore from 'expo-secure-store';
 
 export default function App() {
+  const [isLogged, setIsLogged] = useState(false);
+  const [token, setToken] = useState(null);
+  
+  const setToken = (token) => {
+
+  }
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <RegScreen></RegScreen>
     </View>
   );
 }
@@ -14,8 +22,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    padding: 20,
   },
 });
