@@ -1,4 +1,5 @@
 export const THEME = {
-    MAIN_COLOR : "#4F6D7A",
-    GRAY_COLOR : "#555B6E",
+    POSITIVE_COLOR: "#149028",
+    MAIN_COLOR : "#63ADF2",
+    GRAY_COLOR : "#D4D8D8",
 }

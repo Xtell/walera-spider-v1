@@ -7,46 +7,47 @@ import {
   Button,
   TextInput,
   Alert,
+  BackHandler
 } from "react-native";
 import { THEME } from "../theme";
-import { makeRequest } from "../api";
+import { regUser } from "../api";
+import { AppButton } from "../components/appButton";
+import * as spiderApi from "../api/index";
 export const RegScreen = (props) => {
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
   const [nickName, setNickName] = useState("");
   const [password, setPassword] = useState("");
-  const regUser = () => {
-    const data = {
-      Name: name,
-      LastName: lastName,
-      NickName: nickName,
-      Password: password,
-    };
-    console.log(JSON.stringify(data));
-    makeRequest(
-      "POST",
-      "Users/create",
-      { "Content-Type": "application/json" },
-      data
-    ).then((response) => {
+  const regHandler = () => {
+    spiderApi
+      .createUser(name, lastName, nickName, password)
+      .then((response) => {
+        if (response.ok) {
+          return response.json()
+        }
+        else {
+          if (response.status == 409) {
+            Alert.alert("ТЫ УЖЕ ЗАРЕГИСТРИРОВАН", "Подумай", [
+              {
+                text: "Уйти в одноклассники",
+                onPress: () => (BackHandler.exitApp())
+              }, 
+              {
+                text: "Прошу прощения, Зря быканул",
+              },
 
-      if (response.status == "409") {
-        Alert.alert("Дурак", "Ты уже зареган здесь", [
+            ])
+          }
+        }
+      })
+      .catch((error) => {
+        Alert.alert("Конец", "Мои полномочия на этом все" [
           {
-            text: "Прошу прощения",
-          },
-          {
-            text: "Зря быканул",
-          },
+            text: "Уйти в одноклассники",
+            onPress: () => (BackHandler.exitApp())
+          }
         ]);
-      }
-      else if (response.status == "400") {
-          Alert.alert("ХЗ");
-      }
-      else if (response.status == "200") {
-        
-      }
-    });
+      });
   };
   let disabledButton = false;
   if (
@@ -61,6 +62,10 @@ export const RegScreen = (props) => {
   }
   return (
     <View style={styles.container}>
+      <View style={styles.headerContainer}>
+        <Text style={styles.header}>Регистрация</Text>
+      </View>
+
       <TextInput
         style={styles.input}
         placeholder="Имя"
@@ -87,11 +92,14 @@ export const RegScreen = (props) => {
         secureTextEntry={true}
         onChangeText={(text) => setPassword(text)}
       ></TextInput>
-      <Button
+      <AppButton type="positive" onPress={regHandler} disabled={disabledButton}>
+        Зарегистрироваться
+      </AppButton>
+      {/* <Button
         title="Зарегистрироваться"
         disabled={disabledButton}
         onPress={regUser}
-      />
+      /> */}
     </View>
   );
 };
@@ -100,12 +108,18 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
+  header: {
+    fontSize: 30,
+    textAlign: "center",
+    marginBottom: 20,
+  },
+  headerContainer: {},
   input: {
     marginBottom: 15,
     borderWidth: 1,
     borderStyle: "solid",
-    borderColor: THEME.MAIN_COLOR,
-    backgroundColor: "#FAF9F9",
+    borderColor: "#D4D8D8",
+    backgroundColor: "#F4F5F5",
     borderRadius: 7,
     paddingVertical: 5,
     paddingHorizontal: 10,
