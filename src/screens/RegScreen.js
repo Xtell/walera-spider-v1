@@ -7,11 +7,12 @@ import {
   Button,
   TextInput,
   Alert,
-  BackHandler
+  BackHandler,
 } from "react-native";
 import { THEME } from "../theme";
 import { regUser } from "../api";
 import { AppButton } from "../components/appButton";
+import { AppTextInput } from "../components/appTextInput";
 import * as spiderApi from "../api/index";
 export const RegScreen = (props) => {
   const [name, setName] = useState("");
@@ -23,30 +24,31 @@ export const RegScreen = (props) => {
       .createUser(name, lastName, nickName, password)
       .then((response) => {
         if (response.ok) {
-          return response.json()
-        }
-        else {
+          return response.json();
+        } else {
           if (response.status == 409) {
             Alert.alert("ТЫ УЖЕ ЗАРЕГИСТРИРОВАН", "Подумай", [
               {
                 text: "Уйти в одноклассники",
-                onPress: () => (BackHandler.exitApp())
-              }, 
+                onPress: () => BackHandler.exitApp(),
+              },
               {
                 text: "Прошу прощения, Зря быканул",
               },
-
-            ])
+            ]);
           }
         }
       })
       .catch((error) => {
-        Alert.alert("Конец", "Мои полномочия на этом все" [
-          {
-            text: "Уйти в одноклассники",
-            onPress: () => (BackHandler.exitApp())
-          }
-        ]);
+        Alert.alert(
+          "Конец",
+          "Мои полномочия на этом все"[
+            {
+              text: "Уйти в одноклассники",
+              onPress: () => BackHandler.exitApp(),
+            }
+          ]
+        );
       });
   };
   let disabledButton = false;
@@ -66,32 +68,28 @@ export const RegScreen = (props) => {
         <Text style={styles.header}>Регистрация</Text>
       </View>
 
-      <TextInput
-        style={styles.input}
+      <AppTextInput
         placeholder="Имя"
         placeholderTextColor="#000"
         autoFocus={true}
-        onChangeText={(text) => setName(text)}
-      ></TextInput>
-      <TextInput
-        style={styles.input}
+        onChange={setName}
+      ></AppTextInput>
+      <AppTextInput
         placeholder="Фамилия"
         placeholderTextColor="#000"
-        onChangeText={(text) => setLastName(text)}
-      ></TextInput>
-      <TextInput
-        style={styles.input}
+        onChange={setLastName}
+      ></AppTextInput>
+      <AppTextInput
         placeholder="Ник"
         placeholderTextColor="#000"
-        onChangeText={(text) => setNickName(text)}
-      ></TextInput>
-      <TextInput
-        style={styles.input}
+        onChange={setNickName}
+      ></AppTextInput>
+      <AppTextInput
         placeholder="Пароль"
         placeholderTextColor="#000"
         secureTextEntry={true}
-        onChangeText={(text) => setPassword(text)}
-      ></TextInput>
+        onChange={setPassword}
+      ></AppTextInput>
       <AppButton type="positive" onPress={regHandler} disabled={disabledButton}>
         Зарегистрироваться
       </AppButton>
@@ -114,14 +112,4 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   headerContainer: {},
-  input: {
-    marginBottom: 15,
-    borderWidth: 1,
-    borderStyle: "solid",
-    borderColor: "#D4D8D8",
-    backgroundColor: "#F4F5F5",
-    borderRadius: 7,
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-  },
 });
