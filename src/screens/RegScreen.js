@@ -29,11 +29,7 @@ export const RegScreen = (props) => {
           if (response.status == 409) {
             Alert.alert("ТЫ УЖЕ ЗАРЕГИСТРИРОВАН", "Подумай", [
               {
-                text: "Уйти в одноклассники",
-                onPress: () => BackHandler.exitApp(),
-              },
-              {
-                text: "Прошу прощения, Зря быканул",
+                text: "ДА Я"
               },
             ]);
           }
@@ -80,7 +76,7 @@ export const RegScreen = (props) => {
         onChange={setLastName}
       ></AppTextInput>
       <AppTextInput
-        placeholder="Ник"
+        placeholder="Кличка"
         placeholderTextColor="#000"
         onChange={setNickName}
       ></AppTextInput>
@@ -93,11 +89,6 @@ export const RegScreen = (props) => {
       <AppButton type="positive" onPress={regHandler} disabled={disabledButton}>
         Зарегистрироваться
       </AppButton>
-      {/* <Button
-        title="Зарегистрироваться"
-        disabled={disabledButton}
-        onPress={regUser}
-      /> */}
     </View>
   );
 };

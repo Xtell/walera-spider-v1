@@ -1,7 +1,8 @@
 import React from "react";
 import { View, Text, StyleSheet, Image, Button } from "react-native";
+import {AppButton} from '../components/appButton'
 
-export const WelcomeScreen = (props) => {
+export const WelcomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
@@ -13,16 +14,14 @@ export const WelcomeScreen = (props) => {
 
       <View style={styles.buttons}>
         <View style={styles.button}>
-          <Button
-            style={styles.button}
-            title="Создать аккаунт"
-            onPress={() => {
-              console.log("pressed");
-            }}
-          />
+        <AppButton type="positive" onPress={() => navigation.navigate("RegScreen")}>
+          Зарегистрироваться
+        </AppButton>
         </View>
 
-        <Button style={styles.button} title="Войти" />
+        <AppButton type="default" onPress={() => navigation.navigate("LoginScreen")}>
+          Войти
+        </AppButton>
       </View>
     </View>
   );
@@ -31,6 +30,7 @@ export const WelcomeScreen = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 20,
   },
   imageContainer: {
     // borderWidth: 1,
